@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id       String    @id @default(uuid()) @map("_id")
+  name     String    @unique
+  products Product[]
+}
+
+model Product {
+  id                      String     @id @default(uuid()) @map("_id")
+  name                    String     @unique
+  description             String
+  price                   Int // Price in cents
+  categoryId              String
+  category                Category   @relation(fields: [categoryId], references: [id])
+  valuePromotionInPercent Int?
+  imageUrl                String
+  CartItem                CartItem[]
+  variant                 Variant[]
+}
+
+model Variant {
+  id        String   @id @default(uuid()) @map("_id")
+  name      String
+  amount    Int
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+}
+
+model Cart {
+  id       String     @id @default(uuid()) @map("_id")
+  items    CartItem[]
+  coupon   Coupon?    @relation(fields: [couponId], references: [id])
+  couponId String?
+  Order    Order[]
+}
+
+model CartItem {
+  id        String  @id @default(uuid()) @map("_id")
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id])
+}
+
+model Coupon {
+  id        String   @id @default(uuid()) @map("_id")
+  code      String   @unique
+  discount  Int // Discount in cents
+  type      String
+  expiresIn DateTime
+  Cart      Cart[]
+  CreatedAt DateTime @default(now())
+}
+
+model Order {
+  id            String   @id @default(uuid()) @map("_id")
+  cartId        String
+  cart          Cart     @relation(fields: [cartId], references: [id])
+  paymentStatus String // Ex: 'Pending', 'Paid', 'Cancelled'
+  shippingCost  Int // Shipping cost in cents
+  totalAmount   Int // Total amount in cents
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
