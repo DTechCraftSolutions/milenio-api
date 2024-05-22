@@ -11,12 +11,12 @@ export class OrderController {
     return await this.orderService.createOrder(data);
   }
 
-  @Post('/aproved/:id')
+  @Post('aproved/:id')
   async updatePaymentStatusforAproved(@Param() id: string) {
     return await this.orderService.updatePaymentStatusforAproved(id);
   }
 
-  @Post('/pending/:id')
+  @Post('pending/:id')
   async updatePaymentStatusforPending(@Param() id: string) {
     return await this.orderService.updatePaymentStatusforPending(id);
   }
