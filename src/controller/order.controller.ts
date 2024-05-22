@@ -6,7 +6,7 @@ import { OrderService } from 'src/services/order.service';
 export class OrderController {
   constructor(private orderService: OrderService) {}
 
-  @Post()
+  @Post('register')
   async createOrder(@Body() data: Prisma.OrderCreateInput) {
     return await this.orderService.createOrder(data);
   }
