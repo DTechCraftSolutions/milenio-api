@@ -7,8 +7,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { VariantService } from 'src/services/variant.service';
-import { CreateVariantDto, UpdateVariantDto } from 'src/dto/variant.dto';
+import { VariantService } from '../services/variant.service';
+import { CreateVariantDto, UpdateVariantDto } from '../dto/variant.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('variants')

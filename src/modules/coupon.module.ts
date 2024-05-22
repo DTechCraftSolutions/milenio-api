@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { CouponController } from 'src/controller/coupon.controller';
-import { CouponService } from 'src/services/coupon.service';
+import { CouponController } from '../controller/coupon.controller';
+import { CouponService } from '../services/coupon.service';
 
 @Module({
   providers: [CouponService],

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { CreateCouponDto } from 'src/dto/coupon.dto';
+import { CreateCouponDto } from '../dto/coupon.dto';
 
 @Injectable()
 export class CouponService {

@@ -7,8 +7,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CategoryService } from 'src/services/category.service';
-import { CreateCategoryDto, UpdateCategoryDto } from 'src/dto/category.dto';
+import { CategoryService } from '../services/category.service';
+import { CreateCategoryDto, UpdateCategoryDto } from '../dto/category.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('categories')

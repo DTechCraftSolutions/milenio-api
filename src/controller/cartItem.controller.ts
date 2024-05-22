@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
-import { CartItemService } from 'src/services/cartItem.service';
-import { CreateCartItemDto, UpdateCartItemDto } from 'src/dto/cartItem.dto';
+import { CartItemService } from '../services/cartItem.service';
+import { CreateCartItemDto, UpdateCartItemDto } from '../dto/cartItem.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('cart-items')
