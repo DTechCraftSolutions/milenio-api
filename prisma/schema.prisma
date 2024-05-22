@@ -34,21 +34,13 @@ model Variant {
   productId String?
 }
 
-model Cart {
-  id       String     @id @default(uuid()) @map("_id")
-  items    CartItem[]
-  coupon   Coupon?    @relation(fields: [couponId], references: [id])
-  couponId String?
-  Order    Order[]
-}
-
 model CartItem {
   id        String  @id @default(uuid()) @map("_id")
   productId String
   product   Product @relation(fields: [productId], references: [id])
   quantity  Int
-  cartId    String
-  cart      Cart    @relation(fields: [cartId], references: [id])
+  orderId   String
+  Order     Order   @relation(fields: [orderId], references: [id])
 }
 
 model Coupon {
@@ -57,18 +49,16 @@ model Coupon {
   discount  Int // Discount in cents
   type      String
   expiresIn DateTime
-  Cart      Cart[]
   CreatedAt DateTime @default(now())
 }
 
 model Order {
-  id            String   @id @default(uuid()) @map("_id")
-  cartId        String
-  cart          Cart     @relation(fields: [cartId], references: [id])
+  id            String     @id @default(uuid()) @map("_id")
+  cartItem      CartItem[]
   paymentStatus String // Ex: 'Pending', 'Paid', 'Cancelled'
   shippingCost  Int // Shipping cost in cents
   totalAmount   Int // Total amount in cents
   Adress        String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 }
