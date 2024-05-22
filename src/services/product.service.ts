@@ -1,19 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Prisma } from '@prisma/client';
+import { CreateProductDto, UpdateProductDto } from '../dto/product.dto';
+
 @Injectable()
 export class ProductService {
   constructor(private prisma: PrismaService) {}
 
-  async createProduct(data: Prisma.ProductCreateInput) {
-    return await this.prisma.product.create({ data });
+  async createProduct(data: CreateProductDto) {
+    const { categoryId, ...productData } = data;
+    return await this.prisma.product.create({
+      data: {
+        ...productData,
+        category: {
+          connect: { id: categoryId },
+        },
+      },
+    });
   }
 
-  async updateProduct(id: string, data: Prisma.ProductUpdateInput) {
-    return await this.prisma.product.update({
-      where: { id },
-      data,
-    });
+  async updateProduct(id: string, data: UpdateProductDto) {
+    const { categoryId, ...updateData } = data;
+    if (categoryId) {
+      return await this.prisma.product.update({
+        where: { id },
+        data: {
+          ...updateData,
+          category: {
+            connect: { id: categoryId },
+          },
+        },
+      });
+    } else {
+      return await this.prisma.product.update({
+        where: { id },
+        data: updateData,
+      });
+    }
   }
 
   async deleteProduct(id: string) {

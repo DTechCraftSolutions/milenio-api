@@ -1,19 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Prisma } from '@prisma/client';
+import { CreateCartItemDto, UpdateCartItemDto } from 'src/dto/cartItem.dto';
 
 @Injectable()
 export class CartItemService {
   constructor(private prisma: PrismaService) {}
 
-  async createCartItem(data: Prisma.CartItemCreateInput) {
-    return await this.prisma.cartItem.create({ data });
+  async createCartItem(data: CreateCartItemDto) {
+    return await this.prisma.cartItem.create({
+      data,
+    });
   }
 
-  async updateCartItem(quantity: number, id: string) {
+  async updateCartItem(id: string, data: UpdateCartItemDto) {
     return await this.prisma.cartItem.update({
       where: { id },
-      data: { quantity },
+      data,
     });
   }
 

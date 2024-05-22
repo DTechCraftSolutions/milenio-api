@@ -3,7 +3,7 @@ import { ProductController } from 'src/controller/product.controller';
 import { ProductService } from 'src/services/product.service';
 
 @Module({
-  imports: [ProductService],
+  providers: [ProductService],
   controllers: [ProductController],
 })
 export class ProductModule {}

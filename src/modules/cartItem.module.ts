@@ -3,7 +3,7 @@ import { CartItemController } from 'src/controller/cartItem.controller';
 import { CartItemService } from 'src/services/cartItem.service';
 
 @Module({
-  imports: [CartItemService],
+  providers: [CartItemService],
   controllers: [CartItemController],
 })
 export class CartItemModule {}
