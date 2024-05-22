@@ -8,4 +8,8 @@ export class CartService {
   async createCart(data: Prisma.CartCreateInput) {
     return await this.prisma.cart.create({ data });
   }
+
+  async deleteCart(id: string) {
+    return await this.prisma.cart.delete({ where: { id } });
+  }
 }

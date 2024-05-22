@@ -16,4 +16,8 @@ export class CartItemService {
       data: { quantity },
     });
   }
+
+  async deleteCartItem(id: string) {
+    return await this.prisma.cartItem.delete({ where: { id } });
+  }
 }

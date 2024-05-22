@@ -24,7 +24,7 @@ export class CategoryController {
     return await this.categoryService.getCategories();
   }
 
-  @Put('update')
+  @Put('update/:id')
   async updateCategory(
     @Body() data: Prisma.CategoryUpdateInput,
     @Param() id: string,
@@ -32,7 +32,7 @@ export class CategoryController {
     return await this.categoryService.updateCategory(id, data);
   }
 
-  @Delete('delete')
+  @Delete('delete/:id')
   async deleteCategory(@Param() id: string) {
     return await this.categoryService.deleteCategory(id);
   }

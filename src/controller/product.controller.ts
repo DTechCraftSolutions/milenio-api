@@ -19,7 +19,7 @@ export class ProductController {
     return await this.productService.createProduct(data);
   }
 
-  @Put('update')
+  @Put('update/:id')
   async updateProduct(
     @Body() data: Prisma.ProductUpdateInput,
     @Param() id: string,
@@ -27,7 +27,7 @@ export class ProductController {
     return await this.productService.updateProduct(id, data);
   }
 
-  @Delete('delete')
+  @Delete('delete/:id')
   async deleteProduct(@Param() id: string) {
     return await this.productService.deleteProduct(id);
   }
@@ -37,9 +37,9 @@ export class ProductController {
     return await this.productService.getProducts();
   }
 
-  @Post('listByCategory')
-  async getProductByCategoryId(@Param() id: string) {
-    return await this.productService.getProductByCategoryId(id);
+  @Post('listByCategory/:categoryId')
+  async getProductByCategoryId(@Param() categoryId: string) {
+    return await this.productService.getProductByCategoryId(categoryId);
   }
 
   @Get('listPromotion')
@@ -47,12 +47,12 @@ export class ProductController {
     return await this.productService.getProductsWithPromotion();
   }
 
-  @Post('getById')
+  @Post('getById/:id')
   async getProductById(@Param() id: string) {
     return await this.productService.getProductById(id);
   }
 
-  @Post('getByName')
+  @Post('getByName/:name')
   async getProductsByName(@Param() name: string) {
     return await this.productService.getProductsByName(name);
   }
