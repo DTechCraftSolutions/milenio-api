@@ -7,8 +7,8 @@ async function bootstrap() {
   app.enableCors();
 
   const config = new DocumentBuilder()
-    .setTitle('API Documentation')
-    .setDescription('The API documentation for our NestJS application')
+    .setTitle('Milenio-API Documentation')
+    .setDescription('Milenio-API Documentation')
     .setVersion('1.0')
     .build();
 
