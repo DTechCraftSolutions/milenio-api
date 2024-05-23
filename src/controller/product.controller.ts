@@ -8,8 +8,9 @@ import {
   Put,
 } from '@nestjs/common';
 import { ProductService } from '../services/product.service';
-import { CreateProductDto, UpdateProductDto } from '../dto/product.dto';
+import { CreateProductDto } from '../dto/product.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 
 @ApiTags('products')
 @Controller('products')
@@ -34,7 +35,10 @@ export class ProductController {
   })
   @ApiResponse({ status: 404, description: 'Product not found.' })
   @Put('update/:id')
-  async updateProduct(@Body() data: UpdateProductDto, @Param('id') id: string) {
+  async updateProduct(
+    @Body() data: Prisma.ProductUpdateInput,
+    @Param('id') id: string,
+  ) {
     return await this.productService.updateProduct(id, data);
   }
 

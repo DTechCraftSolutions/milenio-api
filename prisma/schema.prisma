@@ -3,18 +3,18 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Category {
-  id       String    @id @default(uuid()) @map("_id")
+  id       String    @id @default(uuid())
   name     String    @unique
   products Product[]
 }
 
 model Product {
-  id                      String     @id @default(uuid()) @map("_id")
+  id                      String     @id @default(uuid())
   name                    String     @unique
   description             String
   price                   Int // Price in cents
@@ -27,7 +27,7 @@ model Product {
 }
 
 model Variant {
-  id        String   @id @default(uuid()) @map("_id")
+  id        String   @id @default(uuid())
   name      String
   amount    Int
   Product   Product? @relation(fields: [productId], references: [id])
@@ -35,7 +35,7 @@ model Variant {
 }
 
 model CartItem {
-  id        String  @id @default(uuid()) @map("_id")
+  id        String  @id @default(uuid())
   productId String
   product   Product @relation(fields: [productId], references: [id])
   quantity  Int
@@ -44,7 +44,7 @@ model CartItem {
 }
 
 model Coupon {
-  id        String   @id @default(uuid()) @map("_id")
+  id        String   @id @default(uuid())
   code      String   @unique
   discount  Int // Discount in cents
   type      String
@@ -53,7 +53,7 @@ model Coupon {
 }
 
 model Order {
-  id            String     @id @default(uuid()) @map("_id")
+  id            String     @id @default(uuid())
   cartItem      CartItem[]
   paymentStatus String // Ex: 'Pending', 'Paid', 'Cancelled'
   shippingCost  Int // Shipping cost in cents
