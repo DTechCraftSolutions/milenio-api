@@ -17,7 +17,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('swagger-ui', app, document);
 
   // Servir arquivos estáticos do Swagger UI
   app.useStaticAssets(join(__dirname, '..', 'node_modules', 'swagger-ui-dist'));
