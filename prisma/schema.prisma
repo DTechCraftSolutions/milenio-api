@@ -53,12 +53,15 @@ model Coupon {
 }
 
 model Order {
-  id            String     @id @default(uuid())
-  cartItem      CartItem[]
-  paymentStatus String // Ex: 'Pending', 'Paid', 'Cancelled'
-  shippingCost  Int // Shipping cost in cents
-  totalAmount   Int // Total amount in cents
-  Adress        String
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  id             String     @id @default(uuid())
+  cartItem       CartItem[]
+  paymentStatus  String // Ex: 'Pending', 'Paid', 'Cancelled'
+  shippingCost   Int // Shipping cost in cents
+  totalAmount    Int // Total amount in cents
+  user_adress    String?
+  user_telephone String?
+  user_name      String?
+  user_email     String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { CreateOrderDto } from '../dto/order.dto';
+import { CreateOrderDto, UpdateOrderDto } from '../dto/order.dto';
 
 @Injectable()
 export class OrderService {
@@ -12,7 +12,10 @@ export class OrderService {
         paymentStatus: data.paymentStatus,
         shippingCost: data.shippingCost,
         totalAmount: data.totalAmount,
-        Adress: data.address,
+        user_adress: data.user_address,
+        user_name: data.user_name,
+        user_email: data.user_email,
+        user_telephone: data.user_telephone,
         cartItem: {
           create: data.cartItems.map((item) => ({
             product: { connect: { id: item.productId } },
@@ -20,6 +23,13 @@ export class OrderService {
           })),
         },
       },
+    });
+  }
+
+  async updateOrder(id: string, data: UpdateOrderDto) {
+    return await this.prisma.order.update({
+      where: { id },
+      data,
     });
   }
 

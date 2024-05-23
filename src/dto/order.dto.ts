@@ -17,7 +17,39 @@ export class CreateOrderDto {
   totalAmount: number;
 
   @ApiProperty({ description: 'Shipping address' })
-  address: string;
+  user_address: string;
+
+  @ApiProperty({ description: 'User name' })
+  user_name: string;
+
+  @ApiProperty({ description: 'User email' })
+  user_email: string;
+
+  @ApiProperty({ description: 'User phone number' })
+  user_telephone: string;
+}
+
+export class UpdateOrderDto {
+  @ApiProperty({ description: 'Payment status of the order' })
+  paymentStatus?: string | null;
+
+  @ApiProperty({ description: 'Shipping cost in cents' })
+  shippingCost?: number | null;
+
+  @ApiProperty({ description: 'Total amount in cents' })
+  totalAmount?: number | null;
+
+  @ApiProperty({ description: 'Shipping address' })
+  user_address?: string | null;
+
+  @ApiProperty({ description: 'User name' })
+  user_name?: string | null;
+
+  @ApiProperty({ description: 'User email' })
+  user_email?: string | null;
+
+  @ApiProperty({ description: 'User phone number' })
+  user_telephone?: string | null;
 }
 
 class CartItemDto {

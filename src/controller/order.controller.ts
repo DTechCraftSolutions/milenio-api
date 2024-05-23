@@ -1,7 +1,7 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put } from '@nestjs/common';
 import { OrderService } from '../services/order.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateOrderDto } from '../dto/order.dto';
+import { CreateOrderDto, UpdateOrderDto } from '../dto/order.dto';
 
 @ApiTags('orders')
 @Controller('orders')
@@ -41,5 +41,16 @@ export class OrderController {
   @Post('pending/:id')
   async updatePaymentStatusForPending(@Param('id') id: string) {
     return await this.orderService.updatePaymentStatusForPending(id);
+  }
+
+  @ApiOperation({ summary: 'Update an order' })
+  @ApiResponse({
+    status: 200,
+    description: 'The order has been successfully updated.',
+  })
+  @ApiResponse({ status: 404, description: 'Order not found.' })
+  @Put('update/:id')
+  async updateOrder(@Param('id') id: string, @Body() data: UpdateOrderDto) {
+    return await this.orderService.updateOrder(id, data);
   }
 }
