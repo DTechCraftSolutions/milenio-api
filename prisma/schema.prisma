@@ -55,7 +55,7 @@ model Coupon {
 model Order {
   id             String     @id @default(uuid())
   cartItem       CartItem[]
-  send_product   Boolean
+  send_product   Boolean    @default(false)
   paymentStatus  String // Ex: 'Pending', 'Paid', 'Cancelled'
   shippingCost   Int // Shipping cost in cents
   totalAmount    Int // Total amount in cents
