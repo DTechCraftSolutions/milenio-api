@@ -16,6 +16,7 @@ export class OrderService {
         user_name: data.user_name,
         user_email: data.user_email,
         user_telephone: data.user_telephone,
+        send_product: data.send_product,
         cartItem: {
           create: data.cartItems.map((item) => ({
             product: { connect: { id: item.productId } },

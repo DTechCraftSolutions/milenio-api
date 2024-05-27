@@ -7,6 +7,9 @@ export class CreateOrderDto {
   })
   cartItems: CartItemDto[];
 
+  @ApiProperty({ description: 'Send product' })
+  send_product: boolean;
+
   @ApiProperty({ description: 'Payment status of the order' })
   paymentStatus: string;
 
