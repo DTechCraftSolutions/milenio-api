@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { BannerController } from 'src/controller/banner.controller';
-import { BannerService } from 'src/services/banner.service';
+import { BannerController } from '../controller/banner.controller';
+import { BannerService } from '../services/banner.service';
 
 @Module({
   providers: [BannerService],

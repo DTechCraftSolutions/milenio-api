@@ -8,8 +8,8 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateBannerDto, UpdateBannerDto } from 'src/dto/banner.dto';
-import { BannerService } from 'src/services/banner.service';
+import { CreateBannerDto, UpdateBannerDto } from '../dto/banner.dto';
+import { BannerService } from '../services/banner.service';
 
 @ApiTags('Banner')
 @Controller('banner')

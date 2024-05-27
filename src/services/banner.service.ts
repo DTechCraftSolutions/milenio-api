@@ -1,5 +1,5 @@
 import { PrismaService } from './prisma.service';
-import { CreateBannerDto, UpdateBannerDto } from 'src/dto/banner.dto';
+import { CreateBannerDto, UpdateBannerDto } from '../dto/banner.dto';
 export class BannerService {
   constructor(private prisma: PrismaService) {}
 
