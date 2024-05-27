@@ -6,6 +6,7 @@ import { OrderModule } from './modules/order.module';
 import { CouponModule } from './modules/coupon.module';
 import { DataModule } from './modules/data.module';
 import { VariantModule } from './modules/variant.module';
+import { BannerModule } from './modules/banner.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { VariantModule } from './modules/variant.module';
     OrderModule,
     CouponModule,
     VariantModule,
+    BannerModule,
   ],
 })
 export class AppModule {}
