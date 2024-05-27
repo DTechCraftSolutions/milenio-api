@@ -36,6 +36,9 @@ export class UpdateOrderDto {
   @ApiProperty({ description: 'Payment status of the order' })
   paymentStatus?: string | null;
 
+  @ApiProperty({ description: 'Send product' })
+  send_product?: boolean | null;
+
   @ApiProperty({ description: 'Shipping cost in cents' })
   shippingCost?: number | null;
 
