@@ -10,6 +10,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateBannerDto, UpdateBannerDto } from '../dto/banner.dto';
 import { BannerService } from '../services/banner.service';
+import { Prisma } from '@prisma/client';
 
 @ApiTags('Banner')
 @Controller('banner')
@@ -18,7 +19,7 @@ export class BannerController {
 
   @ApiOperation({ summary: 'Create Banner' })
   @Post('create-banner')
-  async createBanner(@Body() data: CreateBannerDto) {
+  async createBanner(@Body() data: Prisma.BannerCreateInput) {
     return await this.bannerService.createBanner(data);
   }
 

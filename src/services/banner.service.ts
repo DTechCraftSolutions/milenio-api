@@ -1,9 +1,10 @@
 import { PrismaService } from './prisma.service';
 import { CreateBannerDto, UpdateBannerDto } from '../dto/banner.dto';
+import { Prisma } from '@prisma/client';
 export class BannerService {
   constructor(private prisma: PrismaService) {}
 
-  async createBanner(data: CreateBannerDto) {
+  async createBanner(data: Prisma.BannerCreateInput) {
     return await this.prisma.banner.create({
       data: {
         name: data.name,
