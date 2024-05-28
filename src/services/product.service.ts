@@ -16,7 +16,14 @@ export class ProductService {
   async updateProduct(id: string, data: UpdateProductDto) {
     return await this.prisma.product.update({
       where: { id },
-      data,
+      data: {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        categoryId: data.categoryId,
+        valuePromotionInPercent: data.valuePromotionInPercent,
+        imageUrl: data.imageUrl,
+      },
     });
   }
 
