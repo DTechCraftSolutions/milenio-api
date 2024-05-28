@@ -41,6 +41,10 @@ export class OrderService {
     });
   }
 
+  async getAllOrders() {
+    return await this.prisma.order.findMany();
+  }
+
   async updatePaymentStatusForPending(id: string) {
     return await this.prisma.order.update({
       where: { id },

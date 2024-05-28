@@ -19,6 +19,16 @@ export class OrderController {
     return await this.orderService.createOrder(data);
   }
 
+  @ApiOperation({ summary: 'Get all orders' })
+  @ApiResponse({
+    status: 200,
+    description: 'The orders have been successfully retrieved.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async getAllOrders() {
+    return await this.orderService.getAllOrders();
+  }
+
   @ApiOperation({ summary: 'Approve an order payment' })
   @ApiResponse({
     status: 200,
