@@ -27,3 +27,30 @@ export class CreateProductDto {
   @ApiProperty()
   imageUrl: string;
 }
+
+export class UpdateProductDto {
+  @IsString()
+  @ApiProperty({ required: false })
+  name?: string;
+
+  @IsString()
+  @ApiProperty({ required: false })
+  description?: string;
+
+  @IsInt()
+  @ApiProperty({ required: false })
+  price?: number;
+
+  @IsString()
+  @ApiProperty({ required: false })
+  categoryId?: string;
+
+  @IsOptional()
+  @IsInt()
+  @ApiProperty({ required: false })
+  valuePromotionInPercent?: number;
+
+  @IsString()
+  @ApiProperty({ required: false })
+  imageUrl?: string;
+}
