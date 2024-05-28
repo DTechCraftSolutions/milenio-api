@@ -58,7 +58,7 @@ export class CartItemController {
     description: 'The cart items have been successfully retrieved.',
   })
   @ApiResponse({ status: 404, description: 'Cart item not found.' })
-  @Get('cart-by-order/:orderId')
+  @Post('orderId/:orderId')
   async getCartItemsByOrderId(@Param() orderId: string) {
     return await this.cartItemService.getCartItemsByOrderId(orderId);
   }
