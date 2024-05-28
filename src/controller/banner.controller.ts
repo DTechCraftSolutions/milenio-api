@@ -30,13 +30,13 @@ export class BannerController {
 
   @ApiOperation({ summary: 'Get Banner By Id' })
   @Delete('delete-banner/:id')
-  async deleteBanner(@Param() id: string) {
+  async deleteBanner(@Param('id') id: string) {
     return await this.bannerService.deleteBanner(id);
   }
 
   @ApiOperation({ summary: 'Update Banner' })
   @Put('update-banner/:id')
-  async updateBanner(@Param() id: string, @Body() data: UpdateBannerDto) {
+  async updateBanner(@Param('id') id: string, @Body() data: UpdateBannerDto) {
     return await this.bannerService.updateBanner(id, data);
   }
 }
