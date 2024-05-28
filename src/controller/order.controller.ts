@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, Get } from '@nestjs/common';
 import { OrderService } from '../services/order.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateOrderDto, UpdateOrderDto } from '../dto/order.dto';
@@ -25,6 +25,7 @@ export class OrderController {
     description: 'The orders have been successfully retrieved.',
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Get('getAll')
   async getAllOrders() {
     return await this.orderService.getAllOrders();
   }
