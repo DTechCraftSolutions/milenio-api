@@ -54,14 +54,28 @@ CREATE TABLE "Coupon" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" TEXT NOT NULL,
+    "send_product" BOOLEAN NOT NULL DEFAULT false,
     "paymentStatus" TEXT NOT NULL,
     "shippingCost" INTEGER NOT NULL,
     "totalAmount" INTEGER NOT NULL,
-    "Adress" TEXT NOT NULL,
+    "user_adress" TEXT,
+    "user_telephone" TEXT,
+    "user_name" TEXT,
+    "user_email" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Banner" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+
+    CONSTRAINT "Banner_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

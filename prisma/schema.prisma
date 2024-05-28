@@ -52,24 +52,26 @@ model Coupon {
   CreatedAt DateTime @default(now())
 }
 
+model ImageBanner {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  imageUrl    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Order {
   id             String     @id @default(uuid())
   cartItem       CartItem[]
   send_product   Boolean    @default(false)
-  paymentStatus  String // Ex: 'Pending', 'Paid', 'Cancelled'
-  shippingCost   Int // Shipping cost in cents
-  totalAmount    Int // Total amount in cents
+  paymentStatus  String
+  shippingCost   Int
+  totalAmount    Int
   user_adress    String?
   user_telephone String?
   user_name      String?
   user_email     String?
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
-}
-
-model Banner {
-  id          String @id @default(uuid())
-  name        String
-  description String
-  imageUrl    String
 }

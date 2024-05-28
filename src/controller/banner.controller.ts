@@ -7,37 +7,64 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateBannerDto, UpdateBannerDto } from '../dto/banner.dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateBannerDto } from '../dto/banners.dto';
 import { BannerService } from '../services/banner.service';
-import { Prisma } from '@prisma/client';
 
-@ApiTags('Banner')
-@Controller('banner')
+@ApiTags('Banners')
+@Controller('banners')
 export class BannerController {
   constructor(private bannerService: BannerService) {}
 
-  @ApiOperation({ summary: 'Create Banner' })
-  @Post('create-banner')
-  async createBanner(@Body() data: Prisma.BannerCreateInput) {
-    return await this.bannerService.createBanner(data);
+  @ApiOperation({ summary: 'Create a new banner' })
+  @ApiResponse({
+    status: 201,
+    description: 'The banner has successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Post('create')
+  async createBanner(@Body() data: CreateBannerDto) {
+    return await this.bannerService.createBanner({
+      name: data.name,
+      description: data.description,
+      imageUrl: data.imageUrl,
+    });
   }
 
-  @ApiOperation({ summary: 'Get All Banners' })
-  @Get('get-all-banners')
-  async getAllBanners() {
-    return await this.bannerService.getAllBanners();
+  @ApiOperation({ summary: 'Get all banners' })
+  @ApiResponse({
+    status: 201,
+    description: 'The banners have successfully retrieved.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Get('get-all')
+  async getBanners() {
+    return await this.bannerService.getBannersAll();
   }
 
-  @ApiOperation({ summary: 'Get Banner By Id' })
-  @Delete('delete-banner/:id')
+  @ApiOperation({ summary: 'Update a banner' })
+  @ApiResponse({
+    status: 201,
+    description: 'The banner has successfully updated.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Put('update/:id')
+  async updateBanner(@Param('id') id: string, @Body() data: CreateBannerDto) {
+    return await this.bannerService.updateBanner(id, {
+      name: data.name,
+      description: data.description,
+      imageUrl: data.imageUrl,
+    });
+  }
+
+  @ApiOperation({ summary: 'Delete a banner' })
+  @ApiResponse({
+    status: 201,
+    description: 'The banner has successfully deleted.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Delete('delete/:id')
   async deleteBanner(@Param('id') id: string) {
     return await this.bannerService.deleteBanner(id);
-  }
-
-  @ApiOperation({ summary: 'Update Banner' })
-  @Put('update-banner/:id')
-  async updateBanner(@Param('id') id: string, @Body() data: UpdateBannerDto) {
-    return await this.bannerService.updateBanner(id, data);
   }
 }
