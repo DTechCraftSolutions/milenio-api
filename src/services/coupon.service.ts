@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { CreateCouponDto } from '../dto/coupon.dto';
+import { CreateCouponDto, UpdateCouponDto } from '../dto/coupon.dto';
 
 @Injectable()
 export class CouponService {
@@ -18,5 +18,12 @@ export class CouponService {
 
   async getAllCoupons() {
     return await this.prisma.coupon.findMany();
+  }
+
+  async updateCoupon(id: string, data: UpdateCouponDto) {
+    return await this.prisma.coupon.update({
+      where: { id },
+      data,
+    });
   }
 }

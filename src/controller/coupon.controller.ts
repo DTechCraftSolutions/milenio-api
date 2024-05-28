@@ -1,7 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CouponService } from '../services/coupon.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateCouponDto } from '../dto/coupon.dto';
+import { CreateCouponDto, UpdateCouponDto } from '../dto/coupon.dto';
 
 @ApiTags('coupons')
 @Controller('coupons')
@@ -39,5 +47,16 @@ export class CouponController {
   @Get('get-all')
   async getAllCoupons() {
     return await this.couponService.getAllCoupons();
+  }
+
+  @ApiOperation({ summary: 'Update a coupon' })
+  @ApiResponse({
+    status: 200,
+    description: 'The coupon has been successfully updated.',
+  })
+  @ApiResponse({ status: 404, description: 'Coupon not found.' })
+  @Put('updateCoupon/:id')
+  async updateCoupon(@Param('id') id: string, @Body() data: UpdateCouponDto) {
+    return await this.couponService.updateCoupon(id, data);
   }
 }
