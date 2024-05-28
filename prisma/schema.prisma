@@ -7,12 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Category {
-  id       String    @id @default(uuid())
-  name     String    @unique
-  products Product[]
-}
-
 model Product {
   id                      String     @id @default(uuid())
   name                    String     @unique
@@ -24,6 +18,12 @@ model Product {
   imageUrl                String
   CartItem                CartItem[]
   variant                 Variant[]
+}
+
+model Category {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  products Product[]
 }
 
 model Variant {
