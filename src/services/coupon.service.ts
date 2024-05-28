@@ -15,4 +15,8 @@ export class CouponService {
   async deleteCoupon(id: string) {
     return await this.prisma.coupon.delete({ where: { id } });
   }
+
+  async getAllCoupons() {
+    return await this.prisma.coupon.findMany();
+  }
 }
