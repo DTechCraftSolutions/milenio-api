@@ -10,6 +10,10 @@ export class CategoryService {
     return await this.prisma.category.findMany();
   }
 
+  async getCategory(id: string) {
+    return await this.prisma.category.findUnique({ where: { id } });
+  }
+
   async createCategory(data: CreateCategoryDto) {
     return await this.prisma.category.create({
       data,

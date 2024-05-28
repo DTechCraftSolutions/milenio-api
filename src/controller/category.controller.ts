@@ -34,6 +34,14 @@ export class CategoryController {
     return await this.categoryService.getCategories();
   }
 
+  @ApiOperation({ summary: 'Get a category' })
+  @ApiResponse({ status: 200, description: 'The category.' })
+  @ApiResponse({ status: 404, description: 'Category not found.' })
+  @Get('get-category/:id')
+  async getCategory(@Param('id') id: string) {
+    return await this.categoryService.getCategory(id);
+  }
+
   @ApiOperation({ summary: 'Update a category' })
   @ApiResponse({
     status: 200,
