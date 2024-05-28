@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CartItemService } from '../services/cartItem.service';
 import { CreateCartItemDto, UpdateCartItemDto } from '../dto/cartItem.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -42,5 +50,16 @@ export class CartItemController {
   @Delete('delete/:id')
   async deleteCartItem(@Param('id') id: string) {
     return await this.cartItemService.deleteCartItem(id);
+  }
+
+  @ApiOperation({ summary: 'Get cart items by order id' })
+  @ApiResponse({
+    status: 200,
+    description: 'The cart items have been successfully retrieved.',
+  })
+  @ApiResponse({ status: 404, description: 'Cart item not found.' })
+  @Get('cart-by-order/:orderId')
+  async getCartItemsByOrderId(@Param() orderId: string) {
+    return await this.cartItemService.getCartItemsByOrderId(orderId);
   }
 }

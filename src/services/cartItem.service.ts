@@ -19,6 +19,14 @@ export class CartItemService {
     });
   }
 
+  async getCartItemsByOrderId(orderId: string) {
+    return await this.prisma.cartItem.findMany({
+      where: {
+        orderId,
+      },
+    });
+  }
+
   async deleteCartItem(id: string) {
     return await this.prisma.cartItem.delete({ where: { id } });
   }
