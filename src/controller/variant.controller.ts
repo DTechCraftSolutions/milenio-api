@@ -63,4 +63,11 @@ export class VariantController {
   async deleteVariant(@Param('id') id: string) {
     return await this.variantService.deleteVariant(id);
   }
+
+  @ApiOperation({ summary: 'Get variants by product ID' })
+  @ApiResponse({ status: 200, description: 'List of variants.' })
+  @Get('product/:id')
+  async getVariantsByProductId(@Param('id') id: string) {
+    return await this.variantService.getVariantsByProductId(id);
+  }
 }

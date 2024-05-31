@@ -32,4 +32,9 @@ export class VariantService {
       where: { id },
     });
   }
+  async getVariantsByProductId(productId: string) {
+    return await this.prisma.variant.findMany({
+      where: { productId },
+    });
+  }
 }
