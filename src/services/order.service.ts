@@ -21,6 +21,7 @@ export class OrderService {
         cartItem: {
           create: data.cartItems.map((item) => ({
             product: { connect: { id: item.productId } },
+            variant: { connect: { id: item.variantId } },
             quantity: item.quantity,
           })),
         },

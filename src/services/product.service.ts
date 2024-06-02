@@ -23,6 +23,7 @@ export class ProductService {
         categoryId: data.categoryId,
         valuePromotionInPercent: data.valuePromotionInPercent,
         imageUrl: data.imageUrl,
+        observation: data.observation,
       },
     });
   }

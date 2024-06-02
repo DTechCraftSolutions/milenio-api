@@ -26,6 +26,11 @@ export class CreateProductDto {
   @IsString()
   @ApiProperty()
   imageUrl: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ required: false })
+  observation?: string;
 }
 
 export class UpdateProductDto {
@@ -53,4 +58,9 @@ export class UpdateProductDto {
   @IsString()
   @ApiProperty({ required: false })
   imageUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ required: false })
+  observation?: string;
 }
