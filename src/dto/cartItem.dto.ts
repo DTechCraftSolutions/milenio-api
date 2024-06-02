@@ -6,6 +6,10 @@ export class CreateCartItemDto {
   @IsString()
   productId: string;
 
+  @ApiProperty({ description: 'ID of the variant' })
+  @IsString()
+  variantId: string;
+
   @ApiProperty({ description: 'Quantity of the product' })
   @IsInt()
   quantity: number;
