@@ -23,6 +23,7 @@ export class OrderService {
             product: { connect: { id: item.productId } },
             variant: { connect: { id: item.variantId } },
             quantity: item.quantity,
+            observation: item.observation,
           })),
         },
       },

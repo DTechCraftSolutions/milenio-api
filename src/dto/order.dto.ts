@@ -67,4 +67,7 @@ class CartItemDto {
 
   @ApiProperty({ description: 'ID of the variant' })
   variantId: string;
+
+  @ApiProperty({ description: 'Observation of the product' })
+  observation?: string;
 }
