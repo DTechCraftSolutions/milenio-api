@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional } from 'class-validator';
 
 export class CreateOrderDto {
   @ApiProperty({
@@ -30,6 +31,10 @@ export class CreateOrderDto {
 
   @ApiProperty({ description: 'User phone number' })
   user_telephone: string;
+
+  @ApiProperty({ description: 'ID of coupon', required: false })
+  @IsOptional()
+  couponId: string; 
 }
 
 export class UpdateOrderDto {

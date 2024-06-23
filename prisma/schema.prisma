@@ -30,6 +30,10 @@ model Variant {
   id        String     @id @default(uuid())
   name      String
   amount    Int
+  weight    Int?
+  length    Int?
+  width     Int?
+  height    Int?
   Product   Product?   @relation(fields: [productId], references: [id])
   productId String?
   CartItem  CartItem[]
@@ -51,6 +55,7 @@ model Coupon {
   id        String   @id @default(uuid())
   code      String   @unique
   discount  Int // Discount in cents
+  orders    Order[]
   type      String
   expiresIn DateTime
   CreatedAt DateTime @default(now())
@@ -66,17 +71,18 @@ model ImageBanner {
 }
 
 model Order {
-  id            String     @id @default(uuid())
-  cartItem      CartItem[]
-  send_product  Boolean    @default(false)
-  paymentStatus String
-  shippingCost  Int
-  totalAmount   Int
-
+  id             String     @id @default(uuid())
+  cartItem       CartItem[]
+  send_product   Boolean    @default(false)
+  paymentStatus  String
+  shippingCost   Int
+  totalAmount    Int
+  couponId       String?
   user_adress    String?
   user_telephone String?
   user_name      String?
   user_email     String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  Coupon         Coupon?    @relation(fields: [couponId], references: [id])
 }

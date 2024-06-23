@@ -17,7 +17,12 @@ export class CouponService {
   }
 
   async getAllCoupons() {
-    return await this.prisma.coupon.findMany();
+    return await this.prisma.coupon.findMany({
+      include: {
+        orders: true,
+        _count: true,
+      }
+    });
   }
 
   async updateCoupon(id: string, data: UpdateCouponDto) {
