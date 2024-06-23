@@ -2,11 +2,12 @@ import { Body, Controller, Param, Post, Put, Get } from '@nestjs/common';
 import { OrderService } from '../services/order.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateOrderDto, UpdateOrderDto } from '../dto/order.dto';
+import axios from 'axios';
 
 @ApiTags('orders')
 @Controller('orders')
 export class OrderController {
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService) { }
 
   @ApiOperation({ summary: 'Create a new order' })
   @ApiResponse({
@@ -38,7 +39,28 @@ export class OrderController {
   })
   @ApiResponse({ status: 404, description: 'Order not found.' })
   @Post('approved/:id')
-  async updatePaymentStatusForApproved(@Param('id') id: string) {
+  async updatePaymentStatusForApproved(@Param('id') id: string, @Body() data) {
+    const urlDiscord = "https://discordapp.com/api/webhooks/1254547010615513159/uoVNShb89JcdDNeo5sWX5Z-jXtDTccFnh23gMTrKsZU0psLw5jhDjPh0-JoGJgF00nZj"
+    const message = {
+      content: "Notificação Recebida",
+      embeds: [
+        {
+          title: "Detalhes da Notificação",
+          description: "Corpo da requisição recebida:",
+          fields: Object.keys(data).map(key => ({
+            name: key,
+            value: JSON.stringify(data[key]),
+            inline: false
+          }))
+        }
+      ]
+    };
+    await axios.post(urlDiscord, message, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
     return await this.orderService.updatePaymentStatusForApproved(id);
   }
 
