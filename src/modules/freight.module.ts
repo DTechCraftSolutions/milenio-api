@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { FreightService } from 'src/services/freight.service';
+import { FreightService } from '../services/freight.service';
 import { FreightController } from 'src/controller/freight.controller';
 
 @Module({
