@@ -86,3 +86,11 @@ model Order {
   updatedAt      DateTime   @updatedAt
   Coupon         Coupon?    @relation(fields: [couponId], references: [id])
 }
+
+model Freight {
+  id String @id @default(uuid())
+  city String
+  cep String @unique
+  price Int
+  createdAt DateTime @default(now())
+}

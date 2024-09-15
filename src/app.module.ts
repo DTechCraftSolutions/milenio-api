@@ -7,6 +7,7 @@ import { CouponModule } from './modules/coupon.module';
 import { DataModule } from './modules/data.module';
 import { VariantModule } from './modules/variant.module';
 import { BannerModule } from './modules/banner.module';
+import { FreightModule } from './modules/freight.module';
 
 @Module({
   imports: [
@@ -18,6 +19,9 @@ import { BannerModule } from './modules/banner.module';
     CouponModule,
     VariantModule,
     BannerModule,
+    FreightModule
   ],
 })
 export class AppModule {}
+
+
