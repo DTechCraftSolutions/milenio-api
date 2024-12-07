@@ -40,27 +40,7 @@ export class OrderController {
   @ApiResponse({ status: 404, description: 'Order not found.' })
   @Post('approved/:id')
   async updatePaymentStatusForApproved(@Param('id') id: string, @Body() data) {
-    const urlDiscord = "https://discordapp.com/api/webhooks/1254547010615513159/uoVNShb89JcdDNeo5sWX5Z-jXtDTccFnh23gMTrKsZU0psLw5jhDjPh0-JoGJgF00nZj"
-    const message = {
-      content: "Notificação Recebida",
-      embeds: [
-        {
-          title: "Detalhes da Notificação",
-          description: "Corpo da requisição recebida:",
-          fields: Object.keys(data).map(key => ({
-            name: key,
-            value: JSON.stringify(data[key]),
-            inline: false
-          }))
-        }
-      ]
-    };
-    await axios.post(urlDiscord, message, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
+    await this.orderService.createTransaction({ orderId: id, data });
     return await this.orderService.updatePaymentStatusForApproved(id);
   }
 

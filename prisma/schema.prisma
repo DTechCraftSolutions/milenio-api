@@ -94,3 +94,10 @@ model Freight {
   price Int
   createdAt DateTime @default(now())
 }
+
+model transaction {
+  id String @id @default(uuid())
+  orderId String
+  createdAt DateTime @default(now())
+  data Json
+}

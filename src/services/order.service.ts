@@ -37,6 +37,15 @@ export class OrderService {
     });
   }
 
+  async createTransaction (data: {
+    orderId: string,
+    data: any,
+  }){
+    return await this.prisma.transaction.create({
+      data,
+    });
+  }
+
   async updatePaymentStatusForApproved(id: string) {
     return await this.prisma.order.update({
       where: { id },
