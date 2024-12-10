@@ -41,7 +41,21 @@ export class OrderController {
   @Post('approved/:id')
   async updatePaymentStatusForApproved(@Param('id') id: string, @Body() data) {
     await this.orderService.createTransaction({ orderId: id, data });
-    return await this.orderService.updatePaymentStatusForApproved(id);
+    if(data.topic === 'payment'){
+      if(data.resource){
+        const payment = await axios.get(`https://api.mercadopago.com/v1/payments/${data.resource}`, {
+          headers: {
+            Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
+          },
+        })
+        if(payment.data.status === 'approved'){
+          return await this.orderService.updatePaymentStatusForApproved(id);
+        }
+      }
+    }
+    return {
+      message: 'Payment not approved',
+    }
   }
 
   @ApiOperation({ summary: 'Set order payment status to pending' })
