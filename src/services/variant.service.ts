@@ -20,11 +20,18 @@ export class VariantService {
   }
 
   async deleteVariant(id: string) {
-    return await this.prisma.variant.delete({ where: { id } });
+    return await this.prisma.variant.update({
+      where: { id },
+      data: { deleteAt: new Date() },
+    })
   }
 
   async getVariants() {
-    return await this.prisma.variant.findMany();
+    return await this.prisma.variant.findMany({
+      where: {
+        deleteAt: null,
+      }
+    });
   }
 
   async getVariantById(id: string) {
@@ -34,7 +41,8 @@ export class VariantService {
   }
   async getVariantsByProductId(productId: string) {
     return await this.prisma.variant.findMany({
-      where: { productId },
+      where: { productId, deleteAt: null },
     });
   }
+
 }
