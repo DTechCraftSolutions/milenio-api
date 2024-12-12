@@ -68,6 +68,7 @@ export class ProductService {
       where: {
         name: {
           contains: name,
+          mode: 'insensitive',
         },
       },
     });

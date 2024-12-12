@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put, Get } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, Get, Query } from '@nestjs/common';
 import { OrderService } from '../services/order.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateOrderDto, UpdateOrderDto } from '../dto/order.dto';
@@ -27,8 +27,8 @@ export class OrderController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Get('getAll')
-  async getAllOrders() {
-    return await this.orderService.getAllOrders();
+  async getAllOrders(@Query('status') status: string, @Query('page') page: string) {
+    return await this.orderService.getAllOrders({ status, page });
   }
 
   @ApiOperation({ summary: 'Approve an order payment' })
@@ -79,5 +79,10 @@ export class OrderController {
   @Put('update/:id')
   async updateOrder(@Param('id') id: string, @Body() data: UpdateOrderDto) {
     return await this.orderService.updateOrder(id, data);
+  }
+
+  @Put('cancel/:id')
+  async cancelOrder(@Param('id') id: string) {
+    return await this.orderService.cancelOrder(id);
   }
 }
