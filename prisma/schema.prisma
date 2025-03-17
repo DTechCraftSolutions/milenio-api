@@ -39,7 +39,7 @@ model Variant {
   Product   Product?   @relation(fields: [productId], references: [id])
   productId String?
   CartItem  CartItem[]
-  deletedAt  DateTime?
+  deleteAt  DateTime?
 }
 
 model CartItem {
