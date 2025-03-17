@@ -18,6 +18,8 @@ model Product {
   imageUrl                String
   CartItem                CartItem[]
   variant                 Variant[]
+  deletedAt                DateTime?
+  updatedAt                DateTime? @updatedAt
 }
 
 model Category {
@@ -37,7 +39,7 @@ model Variant {
   Product   Product?   @relation(fields: [productId], references: [id])
   productId String?
   CartItem  CartItem[]
-  deleteAt  DateTime?
+  deletedAt  DateTime?
 }
 
 model CartItem {

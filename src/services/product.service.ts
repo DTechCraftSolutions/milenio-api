@@ -28,18 +28,26 @@ export class ProductService {
   }
 
   async deleteProduct(id: string) {
-    return await this.prisma.product.delete({
+    return await this.prisma.product.update({
       where: { id },
+      data: {
+        deletedAt: new Date(),
+      },
     });
   }
 
   async getProducts() {
-    return await this.prisma.product.findMany();
+    return await this.prisma.product.findMany({
+      where: {
+        deletedAt: null,
+      },
+    });
   }
 
   async getProductByCategoryId(id: string) {
     return await this.prisma.product.findMany({
       where: {
+        deletedAt: null,
         categoryId: id,
       },
     });
@@ -48,6 +56,7 @@ export class ProductService {
   async getProductsWithPromotion() {
     return await this.prisma.product.findMany({
       where: {
+        deletedAt: null,
         valuePromotionInPercent: {
           not: null,
         },
@@ -66,6 +75,7 @@ export class ProductService {
   async getProductsByName(name: string) {
     return await this.prisma.product.findMany({
       where: {
+        deletedAt: null,
         name: {
           contains: name,
           mode: 'insensitive',
