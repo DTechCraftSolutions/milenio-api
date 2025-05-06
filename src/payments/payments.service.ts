@@ -8,22 +8,39 @@ export class PaymentsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createPaymentDto: CreatePaymentDto) {
+    const { orderId, asaasId, value, status } = createPaymentDto;
+
+    if (!asaasId || !value) {
+      throw new Error('asaasId and value are required fields');
+    }
+
     return this.prisma.payment.create({
       data: {
-        orderId: createPaymentDto.orderId,
-        asaasLinkId: createPaymentDto.asaasLinkId,
-        amount: createPaymentDto.amount,
+        orderId,
+        asaasLinkId: asaasId,
+        amount: value,
+        status,
+      },
+      include: {
+        order: true,
       },
     });
   }
 
   async findAll() {
-    return this.prisma.payment.findMany();
+    return this.prisma.payment.findMany({
+      include: {
+        order: true,
+      },
+    });
   }
 
   async findOne(id: number) {
     const payment = await this.prisma.payment.findUnique({
       where: { id },
+      include: {
+        order: true,
+      },
     });
 
     if (!payment) {
@@ -47,6 +64,9 @@ export class PaymentsService {
       data: {
         ...updatePaymentDto,
         updatedAt: new Date(),
+      },
+      include: {
+        order: true,
       },
     });
   }

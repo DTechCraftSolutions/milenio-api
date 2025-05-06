@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsUUID, IsUrl } from 'class-validator';
 
 export class CreatePaymentDto {
   @IsUUID()
@@ -7,9 +7,17 @@ export class CreatePaymentDto {
 
   @IsString()
   @IsNotEmpty()
-  asaasLinkId: string;
+  asaasId: string;
 
   @IsNumber()
   @IsNotEmpty()
-  amount: number;
+  value: number;
+
+  @IsUrl()
+  @IsNotEmpty()
+  url: string;
+
+  @IsString()
+  @IsNotEmpty()
+  status: string;
 } 

@@ -107,14 +107,15 @@ model transaction {
 }
 
 model Payment {
-  id          Int       @id @default(autoincrement())
-  orderId     String    @map("order_id")
-  asaasLinkId String    @map("asaas_link_id")
-  status      String    @default("PENDING")
-  amount      Decimal
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime? @map("updated_at")
-  order       Order     @relation(fields: [orderId], references: [id])
+  id            Int      @id @default(autoincrement())
+  orderId       String   @map("order_id")
+  asaasLinkId   String   @map("asaas_link_id")
+  status        String   @default("PENDING")
+  amount        Decimal
+  url           String?
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime? @map("updated_at")
+  order         Order    @relation(fields: [orderId], references: [id])
 
   @@map("payments")
 }

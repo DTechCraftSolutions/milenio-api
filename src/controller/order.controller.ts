@@ -38,7 +38,7 @@ export class OrderController {
       'The order payment status has been successfully updated to approved.',
   })
   @ApiResponse({ status: 404, description: 'Order not found.' })
-  @Post('approved/:id')
+  @Post('payment/webhook')
   async updatePaymentStatusForApproved(@Param('id') id: string, @Body() data) {
     await this.orderService.createTransaction({ orderId: id, data });
     if(data.topic === 'payment'){
