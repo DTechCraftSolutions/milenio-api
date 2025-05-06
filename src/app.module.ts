@@ -8,6 +8,7 @@ import { DataModule } from './modules/data.module';
 import { VariantModule } from './modules/variant.module';
 import { BannerModule } from './modules/banner.module';
 import { FreightModule } from './modules/freight.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { FreightModule } from './modules/freight.module';
     CouponModule,
     VariantModule,
     BannerModule,
-    FreightModule
+    FreightModule, 
+    PaymentsModule
   ],
 })
 export class AppModule {}
