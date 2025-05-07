@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { WebhookPaymentDto } from './dto/webhook-payment.dto';
 
 @Injectable()
 export class PaymentsService {
@@ -84,4 +85,17 @@ export class PaymentsService {
       where: { id },
     });
   }
-} 
+
+  async findByAsaasId(asaasId: string) {
+    return this.prisma.payment.findFirst({
+      where: { asaasLinkId: asaasId },
+    });
+  }
+
+  async updatePaymentStatus(id: number, status: string) {
+    return this.prisma.payment.update({
+      where: { id },
+      data: { status },
+    });
+  }
+}

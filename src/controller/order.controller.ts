@@ -1,13 +1,18 @@
-import { Body, Controller, Param, Post, Put, Get, Query } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, Get, Query, NotFoundException } from '@nestjs/common';
 import { OrderService } from '../services/order.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateOrderDto, UpdateOrderDto } from '../dto/order.dto';
 import axios from 'axios';
+import { WebhookPaymentDto } from 'src/dto/webhook-payment.dto';
+import { PaymentsService } from '../payments/payments.service';
 
 @ApiTags('orders')
 @Controller('orders')
 export class OrderController {
-  constructor(private orderService: OrderService) { }
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly paymentsService: PaymentsService
+  ) { }
 
   @ApiOperation({ summary: 'Create a new order' })
   @ApiResponse({
@@ -34,28 +39,26 @@ export class OrderController {
   @ApiOperation({ summary: 'Approve an order payment' })
   @ApiResponse({
     status: 200,
-    description:
-      'The order payment status has been successfully updated to approved.',
+    description: 'Payment webhook processed successfully.',
   })
   @ApiResponse({ status: 404, description: 'Order not found.' })
   @Post('payment/webhook')
-  async updatePaymentStatusForApproved(@Param('id') id: string, @Body() data) {
-    await this.orderService.createTransaction({ orderId: id, data });
-    if(data.topic === 'payment'){
-      if(data.resource){
-        const payment = await axios.get(`https://api.mercadopago.com/v1/payments/${data.resource}`, {
-          headers: {
-            Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
-          },
-        })
-        if(payment.data.status === 'approved'){
-          return await this.orderService.updatePaymentStatusForApproved(id);
-        }
+  async updatePaymentStatusForApproved(@Body() data: WebhookPaymentDto) {
+    if (data.event === 'PAYMENT_RECEIVED') {
+      const payment = await this.paymentsService.findByAsaasId(data.payment.id);
+      
+      if (!payment) {
+        throw new NotFoundException('Payment not found');
       }
+
+      await this.paymentsService.updatePaymentStatus(payment.id, 'APPROVED');
+      return await this.orderService.updatePaymentStatusForApproved(payment.orderId);
     }
+
     return {
-      message: 'Payment not approved',
-    }
+      message: 'Webhook received but no action taken',
+      event: data.event
+    };
   }
 
   @ApiOperation({ summary: 'Set order payment status to pending' })
