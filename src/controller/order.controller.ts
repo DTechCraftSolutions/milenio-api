@@ -5,13 +5,15 @@ import { CreateOrderDto, UpdateOrderDto } from '../dto/order.dto';
 import axios from 'axios';
 import { WebhookPaymentDto } from '../dto/webhook-payment.dto';
 import { PaymentsService } from '../payments/payments.service';
+import { PrismaService } from 'src/services/prisma.service';
 
 @ApiTags('orders')
 @Controller('orders')
 export class OrderController {
   constructor(
     private readonly orderService: OrderService,
-    private readonly paymentsService: PaymentsService
+    private readonly paymentsService: PaymentsService,
+    private readonly prisma: PrismaService
   ) { }
 
   @ApiOperation({ summary: 'Create a new order' })
@@ -44,11 +46,30 @@ export class OrderController {
   @ApiResponse({ status: 404, description: 'Order not found.' })
   @Post('payment/webhook')
   async updatePaymentStatusForApproved(@Body() data: WebhookPaymentDto) {
+    console.log(data);
+    await this.prisma.transaction.create({
+      data: {
+        orderId: data.payment.id,
+        data: JSON.stringify(data)
+      }
+    })
     if (data.event === 'PAYMENT_RECEIVED') {
       const payment = await this.paymentsService.findByAsaasId(data.payment.id);
+      await this.prisma.transaction.create({
+        data: {
+          orderId: data.payment.id,
+          data: "evento de pagamento recebido"
+        }
+      })
       
       if (!payment) {
         throw new NotFoundException('Payment not found');
+        await this.prisma.transaction.create({
+          data: {
+            orderId: data.payment.id,
+            data: "pagamento não encontrado"
+          }
+        })
       }
 
       await this.paymentsService.updatePaymentStatus(payment.id, 'APPROVED');
