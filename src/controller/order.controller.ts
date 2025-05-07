@@ -3,7 +3,7 @@ import { OrderService } from '../services/order.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateOrderDto, UpdateOrderDto } from '../dto/order.dto';
 import axios from 'axios';
-import { WebhookPaymentDto } from 'src/dto/webhook-payment.dto';
+import { WebhookPaymentDto } from '../dto/webhook-payment.dto';
 import { PaymentsService } from '../payments/payments.service';
 
 @ApiTags('orders')
