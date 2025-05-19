@@ -60,7 +60,7 @@ async updatePaymentStatusForApproved(@Body() data: WebhookPaymentDto) {
     // Processa diferentes eventos
     switch (data.event) {
       case 'PAYMENT_CONFIRMED':
-        const payment = await this.paymentsService.findByAsaasId(data.payment.id);
+        const payment = await this.paymentsService.findByAsaasId(data.payment.paymentLink);
         
         await this.prisma.transaction.create({
           data: {
