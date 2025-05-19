@@ -45,43 +45,87 @@ export class OrderController {
   })
   @ApiResponse({ status: 404, description: 'Order not found.' })
   @Post('payment/webhook')
-  async updatePaymentStatusForApproved(@Body() data: WebhookPaymentDto) {
-    console.log(data);
+async updatePaymentStatusForApproved(@Body() data: WebhookPaymentDto) {
+  try {
+    console.log('Webhook received:', data);
+    
+    // Registra a transação inicial
     await this.prisma.transaction.create({
       data: {
         orderId: data.payment.id,
         data: JSON.stringify(data)
       }
-    })
-    if (data.event === 'PAYMENT_RECEIVED') {
-      const payment = await this.paymentsService.findByAsaasId(data.payment.id);
-      await this.prisma.transaction.create({
-        data: {
-          orderId: data.payment.id,
-          data: "evento de pagamento recebido"
-        }
-      })
-      
-      if (!payment) {
-        throw new NotFoundException('Payment not found');
+    });
+
+    // Processa diferentes eventos
+    switch (data.event) {
+      case 'PAYMENT_RECEIVED':
+        const payment = await this.paymentsService.findByAsaasId(data.payment.id);
+        
         await this.prisma.transaction.create({
           data: {
             orderId: data.payment.id,
-            data: "pagamento não encontrado"
+            data: "evento de pagamento recebido"
           }
-        })
-      }
+        });
+        
+        if (!payment) {
+          await this.prisma.transaction.create({
+            data: {
+              orderId: data.payment.id,
+              data: "pagamento não encontrado"
+            }
+          });
+          
+          // Retorna 200 mesmo quando não encontra o pagamento
+          return {
+            message: 'Payment not found in our database',
+            event: data.event
+          };
+        }
 
-      await this.paymentsService.updatePaymentStatus(payment.id, 'APPROVED');
-      return await this.orderService.updatePaymentStatusForApproved(payment.orderId);
+        await this.paymentsService.updatePaymentStatus(payment.id, 'APPROVED');
+        await this.orderService.updatePaymentStatusForApproved(payment.orderId);
+        
+        return {
+          message: 'Payment approved successfully',
+          event: data.event
+        };
+
+      case 'PAYMENT_CREATED':
+      case 'PAYMENT_PENDING':
+      case 'PAYMENT_CONFIRMED':
+      // Adicione outros casos conforme necessário
+        return {
+          message: `Event ${data.event} processed successfully`,
+          event: data.event
+        };
+
+      default:
+        return {
+          message: 'Webhook received but no action taken',
+          event: data.event
+        };
     }
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    
+    // Registra o erro
+    await this.prisma.transaction.create({
+      data: {
+        orderId: data.payment.id,
+        data: `Error processing webhook: ${error.message}`
+      }
+    });
 
+    // Ainda retorna 200 para o Asaas
     return {
-      message: 'Webhook received but no action taken',
-      event: data.event
+      message: 'Error processing webhook, but received',
+      event: data.event,
+      error: error.message
     };
   }
-
+}
   @ApiOperation({ summary: 'Set order payment status to pending' })
   @ApiResponse({
     status: 200,
