@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { CreateProductDto, UpdateProductDto } from '../dto/product.dto';
 import { Prisma } from '@prisma/client';
@@ -8,6 +8,14 @@ export class ProductService {
   constructor(private prisma: PrismaService) {}
 
   async createProduct(data: CreateProductDto) {
+    const alreadyExists = await this.prisma.product.findUnique({
+      where: {
+        name: data.name,
+      },
+    });
+    if (alreadyExists) {
+      throw new BadRequestException('Product already exists');
+    }
     return await this.prisma.product.create({
       data,
     });
